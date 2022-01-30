@@ -5,7 +5,7 @@ import recipeView from './view/recipeView.js';
 import searchView from './view/searchView.js';
 import resultView from './view/resultView.js';
 import paginationView from './view/paginationView.js';
-
+import bookmarkView from './view/bookmarkView.js';
 // https://forkify-api.herokuapp.com/v2
 
 ///////////////////////////////////////
@@ -22,13 +22,13 @@ const controlRecipes = async function () {
 
     //0 Update result with marked selected view
     resultView.update(model.getSearchResultPage());
+    bookmarkView.update(model.state.bookmarks);
 
     //1 loading recipe
     await model.loadRecipe(id);
 
     //2 rendering recipe
     recipeView.render(model.state.recipe);
-
     //  'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bcfcc'
     //  'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886'
   } catch (err) {
@@ -70,13 +70,14 @@ const controlServings = function (newServing) {
 
 const controlAddBookmark = function () {
   if (!model.state.recipe.bookmarked) {
+    //Add bookmark
     model.addBookmark(model.state.recipe);
   } else {
+    //Remove bookmark
     model.removeBookmark(model.state.recipe.id);
   }
-
-  console.log(model.state.recipe);
-
+  //render bookmark_List
+  bookmarkView.render(model.state.bookmarks);
   recipeView.update(model.state.recipe);
 };
 
