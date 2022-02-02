@@ -7,6 +7,9 @@ class BookMarkView extends View {
     'No bookmark found for! Please bookmark your favorite recipe!';
   _message = '';
 
+  addHandlerRender(handler) {
+    window.addEventListener('load', handler);
+  }
   _generatMarkup() {
     return this._data
       .map(bookmark => previewView.render(bookmark, false))
