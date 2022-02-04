@@ -2,6 +2,7 @@ import View from './view.js';
 import icons from 'url:../../img/icons.svg';
 class addNewRecipe extends View {
   _parentElement = document.querySelector('.upload');
+  _message = 'Recipe was successfully added';
   _window = document.querySelector('.add-recipe-window');
   _overlay = document.querySelector('.overlay');
   btnOpen = document.querySelector('.nav__btn--add-recipe');
@@ -25,9 +26,12 @@ class addNewRecipe extends View {
     this._overlay.addEventListener('click', this.toggleRecipeView.bind(this));
   }
 
-  _addHandlerUpload() {
+  addHandlerUpload(handler) {
     this._parentElement.addEventListener('submit', function (e) {
       e.preventDefault();
+      const dataArr = [...new FormData(this)];
+      const data = Object.fromEntries(dataArr);
+      handler(data);
     });
   }
   _generatMarkup() {}
